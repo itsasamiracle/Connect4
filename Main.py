@@ -89,7 +89,17 @@ def checkForWin():
         if (right == 4):
             foundRedWinner = True
             break
+        diag = 1
+        diag = checkUpRight(diag, x[0], x[1], my_red_list)
+        if (diag == 4):
+            foundRedWinner = True
+            break
 
+        Otherdiag = 1
+        Otherdiag = checkDownRight(Otherdiag, x[0], x[1], my_red_list)
+        if (Otherdiag == 4):
+            foundRedWinner = True
+            break
     foundBlueWinner = False
     for x in my_blue_list:
         up = 1
@@ -104,17 +114,47 @@ def checkForWin():
         if (right == 4):
             foundBlueWinner = True
             break
+        diag = 1
+        diag = checkUpRight(diag, x[0], x[1], my_blue_list)
+        if (diag == 4):
+            foundBlueWinner = True
+            break
+
+        Otherdiag = 1
+        Otherdiag = checkDownRight(Otherdiag, x[0], x[1], my_blue_list)
+        if (Otherdiag == 4):
+            foundBlueWinner = True
+            break
 
     print("do we win through up" , up)
     print("do we win through right" , right)
+    print("do we win through diag", diag)
+    print("do we win through otherdiag", Otherdiag)
 
     if (foundRedWinner):
         messagebox.showinfo("Game Over", "Red wins. Click OK to reset.")
+        reset()
+        foundRedWinner = False
     if (foundBlueWinner):
         messagebox.showinfo("Game Over", "Blue wins. Click OK to reset.")
+        reset()
+        foundBlueWinner = False
 
+def reset():
+    clicked = True
+    count = 0
+    my_red_list.clear()
+    my_blue_list.clear()
+    for r in range(7):
+        for c in range(6):
+             but = buttons[r][c]
+             but["bg"] = "SystemButtonFace"
+             but["state"] = "normal"
+             but["text"] = "normal"
 
+    disableRunner()
 
+    pass
 def checkUp(up, a, b, my_list):
     if (a==-1):
         print("escsaping the out of bounds")
@@ -142,9 +182,33 @@ def checkRight(right, a, b, my_list):
         print(right)
         return checkRight(right,a, b+1, my_list)
     return right
+def checkUpRight(diag, a, b, my_list):
+    if (a==-1 or b == 6):
+        print("escsaping the out of bounds")
+        return diag
+    if (diag == 4):
+        print("reached the four")
+        return diag
+    if [a-1, b+1] in my_list:
+        print("we should be incrementing")
 
+        diag = diag +1
+        print(diag)
+        return checkUpRight(diag, a-1, b+1, my_list)
+        
+def checkDownRight(Otherdiag, a, b, my_list):
+    if (a==7 or b == 6):
+        print("escsaping the out of bounds")
+        return Otherdiag
+    if (Otherdiag == 4):
+        print("reached the four")
+        return Otherdiag
+    if [a+1, b+1] in my_list:
+        print("we should be incrementing")
 
-
+        Otherdiag = Otherdiag +1
+        print(Otherdiag)
+        return checkDownRight(Otherdiag, a+1, b+1, my_list)
 
 
 # Create 7x6 grid of buttons
