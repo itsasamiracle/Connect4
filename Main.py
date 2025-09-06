@@ -56,6 +56,17 @@ def disableRunner():
 
 
 def checkForWin():
+    draw = True
+    for r in range(7):
+        for c in range(6):
+            but = buttons[r][c]
+            if (but["bg"] == "SystemButtonFace"):
+                draw = False
+                break
+    if (draw):
+        messagebox.showinfo("Game Over", "Game Ends in Tie. Click OK to reset.")
+        reset()
+
 
     for r in range(7):
         for c in range(6):
@@ -126,10 +137,10 @@ def checkForWin():
             foundBlueWinner = True
             break
 
-    print("do we win through up" , up)
-    print("do we win through right" , right)
-    print("do we win through diag", diag)
-    print("do we win through otherdiag", Otherdiag)
+    # print("do we win through up" , up)
+    # print("do we win through right" , right)
+    # print("do we win through diag", diag)
+    # print("do we win through otherdiag", Otherdiag)
 
     if (foundRedWinner):
         messagebox.showinfo("Game Over", "Red wins. Click OK to reset.")
